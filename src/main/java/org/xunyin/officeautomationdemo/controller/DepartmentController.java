@@ -2,6 +2,7 @@ package org.xunyin.officeautomationdemo.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class DepartmentController {
         return Result.success("新增部门",department);
     }
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/searchMember")
     public Result searchMember(){
         log.info("查询当前部门成员");
@@ -60,7 +61,7 @@ public class DepartmentController {
         return messageService.list();
     }
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/addMessage")
     public Result publishMessage(@RequestBody Message message){
         log.info("发布部门公告");

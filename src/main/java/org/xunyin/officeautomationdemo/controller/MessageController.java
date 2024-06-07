@@ -2,6 +2,7 @@ package org.xunyin.officeautomationdemo.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class MessageController {
     @Autowired
     MessageMapper messageMapper;
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/publish")
     public Result publish(@RequestBody Message message){
         messageMapper.add(message);

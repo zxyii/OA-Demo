@@ -2,6 +2,7 @@ package org.xunyin.officeautomationdemo.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,14 @@ public class WorkController {
     @Autowired
     WorkService workService;
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/createGroup")
     public Result createGroup(@RequestBody Group group){
         log.info("创建工作小组");
         workService.createGroup(group);
         return Result.success(group.getGroupName() + "创建成功");
     }
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/inviteMemeber")
     public Result inviteMember(List<String> users){
         log.info("邀请小组成员");
@@ -35,7 +36,7 @@ public class WorkController {
         return Result.success();
     }
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/publishWork")
     public Result publishWork(@RequestBody Work work){
         log.info("发布工作内容");

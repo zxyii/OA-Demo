@@ -3,6 +3,7 @@ package org.xunyin.officeautomationdemo.controller;
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -43,7 +44,7 @@ public class UserController {
     RoleService roleService;
 
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/list")
     public Result userList(){
         log.info("查询所有用户：");
@@ -51,7 +52,7 @@ public class UserController {
         return Result.success(userList);
     }
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/findById")
     public Result userInfo1(int userId){
         log.info("根据id查询用户");
@@ -59,7 +60,7 @@ public class UserController {
         return Result.success(user);
     }
 
-    @SaCheckRole({"admin","leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/findByName")
     public Result userInfo2(String userName){
         log.info("根据用户名查询用户");
@@ -128,7 +129,7 @@ public class UserController {
         return entrySubmitService.add(entrySubmit); //提交申请
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/applyList")
     public Result applyInfo(){
         log.info("查询申请加入当前部门的所有申请的具体信息");
@@ -143,7 +144,7 @@ public class UserController {
         return Result.success("审核已提交");
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/entryCheck")
     public Result applyCheck(@NonNull Integer entryId, Integer status, Integer result, String description){
         log.info("审核加入部门的申请");
@@ -158,7 +159,7 @@ public class UserController {
         return shiftSubmitService.add(shiftSubmit);
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/shiftList")
     public Result shiftList(){
         log.info("查询申所有转部门的申请的具体信息");
@@ -173,7 +174,7 @@ public class UserController {
         return Result.success("审核已提交");
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/shiftCheck")
     public Result  shiftCheck(@RequestBody ShiftCheck shiftCheck){
         log.info("审核转部门");
