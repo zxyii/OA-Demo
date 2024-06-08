@@ -19,4 +19,7 @@ public interface WorkMapper {
 
     @Select("select * from work where group_id = #{groupId}")
     Work workInfo(int groupId);
+
+    @Update("update work set status = #{status} where work_id = #{workId}")
+    void updateStatus(int workId, int status);
 }

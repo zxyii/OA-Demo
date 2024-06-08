@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Mapper
 public interface EntryCheckMapper {
-    @Update("update entry_check ec set result = #{result},status = #{status},description = #{description}  where ec.entry_id = #{id}")
+    @Update("update entry_check ec set result = #{result},status = #{status},description = #{description}  where ec.id = #{id}")
     void updateResult(int id, int status, int result,String description);
 
     @Select("select * from entry_check where entry_id = #{entryId}")

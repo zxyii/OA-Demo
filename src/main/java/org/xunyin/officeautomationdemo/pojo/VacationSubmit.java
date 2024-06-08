@@ -1,13 +1,13 @@
 package org.xunyin.officeautomationdemo.pojo;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
-import java.util.Date;
+
 
 @Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacationSubmit {
@@ -16,7 +16,7 @@ public class VacationSubmit {
     private String applyPerson;
     private int userId;
     private int departmentId;
-    private Date start;
-    private Date end;
+    private String start;
+    private String end;
     private LocalDateTime createTime;
 }

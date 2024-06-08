@@ -30,9 +30,11 @@ public class VacationSubmitServiceImpl implements VacationSubmitService {
 
     @Override
     public Result add(VacationSubmit vacationSubmit) {
+        User user = userService.findById(StpUtil.getLoginIdAsInt());
         vacationSubmit.setCreateTime(LocalDateTime.now());
         vacationSubmit.setUserId(StpUtil.getLoginIdAsInt());
         vacationSubmit.setUserId(StpUtil.getLoginIdAsInt());
+        vacationSubmit.setDepartmentId(user.getDepartment());
         if (vacationSubmitMapper.listInfo(vacationSubmit.getUserId()) != null){
             return  Result.error("请勿重复提交");
         }

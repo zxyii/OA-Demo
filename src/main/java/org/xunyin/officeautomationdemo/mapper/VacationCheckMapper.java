@@ -17,5 +17,5 @@ public interface VacationCheckMapper {
     void updateResult(int id, int status, int result, String description);
 
     @Insert("insert into vacation_check(vacation_id,check_person,time) values (#{vacationId},#{checkPerson},#{time})")
-    VacationCheck initialize(int vacationId, String checkPerson, LocalDateTime time);
+    void initialize(int vacationId, String checkPerson, LocalDateTime time);
 }

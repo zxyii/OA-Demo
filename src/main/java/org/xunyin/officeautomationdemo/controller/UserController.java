@@ -5,6 +5,7 @@ import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.StpUtil;
+import jakarta.validation.constraints.NotNull;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -176,9 +177,10 @@ public class UserController {
 
     @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/shiftCheck")
-    public Result  shiftCheck(@RequestBody ShiftCheck shiftCheck){
+    public Result  shiftCheck(@NotNull Integer shiftId, Integer order, Integer pass, String description){
         log.info("审核转部门");
-        shiftCheckService.updateResult(shiftCheck);
+        ShiftCheck shiftCheck = shiftCheckService.check(shiftId);
+        shiftCheckService.update(shiftCheck.getId(),order,pass,description);
         return Result.success("审核完毕");
     }
 
@@ -195,7 +197,7 @@ public class UserController {
         return vacationSubmitService.updateReason(content);
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @GetMapping("/vacationList")
     public Result vacationList(){
         log.info("查询所有请假的具体信息");
@@ -203,7 +205,7 @@ public class UserController {
         return Result.success("请假申请：",vacationList);
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/vacationCheckAdd")
     public Result vacationCheckAdd(int vacationId){
         User leader = userService.findById(StpUtil.getLoginIdAsInt());
@@ -211,7 +213,7 @@ public class UserController {
         return Result.success("审核已提交");
     }
 
-    @SaCheckRole({"leader"})
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/vacationCheck")
     public Result vacationCheck(int vacationId,int status,int result,String description){
         log.info("审核请假");

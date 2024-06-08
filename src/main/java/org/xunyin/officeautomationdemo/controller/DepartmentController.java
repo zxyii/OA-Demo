@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.xunyin.officeautomationdemo.pojo.*;
 import org.xunyin.officeautomationdemo.service.*;
 import org.xunyin.officeautomationdemo.util.Result;
-//import org.xunyin.officeautomationdemo.service.impl.MessageSenderServiceImpl;
+
 
 import java.util.List;
 @Slf4j
@@ -73,7 +73,6 @@ public class DepartmentController {
     public Result join(){
         log.info("加入部门");
         int userId = StpUtil.getLoginIdAsInt();
-        User user = userService.findById(userId);
         EntrySubmit entrySubmit = entrySubmitService.listInfo2(userId); //通过当前登陆者姓名查询提交的申请信息
         EntryCheck entryCheck = entryCheckService.check(entrySubmit.getId()); //通过申请编号查询该申请的审核信息
         if(entryCheck.getStatus() == 0){
@@ -95,21 +94,23 @@ public class DepartmentController {
         if(shiftCheck.getOrder() == 1 && shiftCheck.getPass() == 1){
             shiftCheck.setResult(1);
             shiftCheck.setStatus(2);
-            return Result.error("转部门结果：" + shiftCheck.getResult() +
+            shiftCheckService.updateResult(shiftCheck.getId(),shiftCheck.getStatus(),shiftCheck.getResult());
+            return Result.error("转部门结果：" + shiftCheck.getResult() + " " +
                                 "说明：" + shiftCheck.getDescription());
         }
         else if(shiftCheck.getOrder() == 2 && shiftCheck.getPass() == 1){
             shiftCheck.setResult(1);
             shiftCheck.setStatus(2);
-            return Result.error("转部门结果：" + shiftCheck.getResult() +
+            shiftCheckService.updateResult(shiftCheck.getId(),shiftCheck.getStatus(),shiftCheck.getResult());
+            return Result.error("转部门结果：" + shiftCheck.getResult() + " " +
                                 "说明：" + shiftCheck.getDescription());
         }else if(shiftCheck.getOrder() == 2 && shiftCheck.getPass() == 0){
             shiftCheck.setResult(0);
             shiftCheck.setStatus(2);
-            user.setDepartment(shiftSubmit.getIdealDepartmentId());
+            shiftCheckService.updateResult(shiftCheck.getId(),shiftCheck.getStatus(),shiftCheck.getResult());
+            departmentService.update(shiftSubmit.getIdealDepartmentId());
             return Result.success("转部门成功");
         }
-        shiftCheck.setStatus(1);
         return Result.error("审核未完成，请等候通知");
     }
 

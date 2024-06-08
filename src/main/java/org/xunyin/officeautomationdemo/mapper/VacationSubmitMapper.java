@@ -11,8 +11,8 @@ import java.util.List;
 @Mapper
 public interface VacationSubmitMapper {
 
-    @Insert("insert into vacation_submit(apply_person,department_id,content,start,end,create_time)" +
-            "values (#{applyPerson},#{departmentId},#{content},#{satrt},#{end},#{createTime})")
+    @Insert("insert into vacation_submit(apply_person,user_id,department_id,content,start,end,create_time)" +
+            "values (#{applyPerson},#{userId},#{departmentId},#{content},#{start},#{end},#{createTime})")
     void add(VacationSubmit vacationSubmit);
 
     @Select("select * from vacation_submit where id = #{id}")

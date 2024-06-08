@@ -9,4 +9,8 @@ public interface GroupService {
     void inviteMember(int groupId,String userNames);
 
     List<Group> listAll();
+
+    List<String> listMember();
+
+    void update(int userId,int groupId);
 }

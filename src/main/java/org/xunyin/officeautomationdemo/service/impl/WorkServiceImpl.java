@@ -29,28 +29,25 @@ import java.util.List;
     新建工作小组
     */
     @Override
+    @Transactional
     public void createGroup(Group group) {
-        User leader = userService.findById(StpUtil.getLoginIdAsInt());
         groupService.add(group);
-        leader.setGroup(group.getGroupId());
     }
 
     /*
     邀请小组成员
     */
     @Override
-    public Result inviteMember(List<String> userNames) {
+    public Result inviteMember(int groupId,List<String> userNames) {
         User leader = userService.findById(StpUtil.getLoginIdAsInt());
-        try {
-            for (String userName : userNames) {
-                User user = userService.findByName(userName);
-                if (user.getDepartment() == leader.getDepartment()){
-                    groupService.inviteMember(leader.getGroup(),userName);
-                    return Result.success(userName + "已成功加入小组");
-                }
+        groupService.update(leader.getUserId(),groupId);
+        for (String userName : userNames) {
+            User leader1 = userService.findById(StpUtil.getLoginIdAsInt());
+            User user = userService.findByName(userName);
+            if (user.getDepartment() == leader.getDepartment()){
+                groupService.inviteMember(leader1.getGroup(),userName);
+                return Result.success(userName + "已成功加入小组");
             }
-        }catch (Exception e) {
-            throw new RuntimeException(e);
         }
         return Result.error("只能邀请当前部门成员加入小组");
     }
@@ -65,6 +62,7 @@ import java.util.List;
         work.setCreateTime(LocalDateTime.now());
         work.setUpdateTime(LocalDateTime.now());
         work.setGroupId(leader.getGroup());
+        work.setCreatePerson(leader.getUserName());
         workMapper.publishWork(work);
     }
 
@@ -103,6 +101,7 @@ import java.util.List;
         User user = userService.findById(StpUtil.getLoginIdAsInt());
         Work work = workMapper.workInfo(user.getGroup());
         work.setStatus(1);
+        workMapper.updateStatus(work.getWorkId(),work.getStatus());
         return Result.success(work.getWorkName() + "已终止");
     }
 }

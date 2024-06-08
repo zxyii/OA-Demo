@@ -1,8 +1,5 @@
 package org.xunyin.officeautomationdemo.service;
-
 import org.xunyin.officeautomationdemo.pojo.Department;
-import org.xunyin.officeautomationdemo.pojo.User;
-
 import java.util.List;
 
 public interface DepartmentService {
@@ -14,4 +11,6 @@ public interface DepartmentService {
     void entry(int departmentId);
 
     void add(Department department);
+
+    void update(int departmentId);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public interface WorkService {
 
     void createGroup(Group group);
-    Result inviteMember(List<String> userNames);
+    Result inviteMember(int groupId,List<String> userNames);
     void publishWork(Work work);
     Work workInfo();
     void updateProgress(String progress);

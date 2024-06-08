@@ -1,16 +1,16 @@
 package org.xunyin.officeautomationdemo.controller;
-
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.annotation.SaMode;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.xunyin.officeautomationdemo.pojo.Group;
+import org.xunyin.officeautomationdemo.service.GroupService;
 import org.xunyin.officeautomationdemo.util.Result;
 import org.xunyin.officeautomationdemo.pojo.Work;
 import org.xunyin.officeautomationdemo.service.WorkService;
-
 import java.util.List;
 
 @Slf4j
@@ -20,6 +20,8 @@ import java.util.List;
 public class WorkController {
     @Autowired
     WorkService workService;
+    @Autowired
+    GroupService groupService;
 
     @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
     @PostMapping("/createGroup")
@@ -29,11 +31,19 @@ public class WorkController {
         return Result.success(group.getGroupName() + "创建成功");
     }
     @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
-    @PostMapping("/inviteMemeber")
-    public Result inviteMember(List<String> users){
+    @PostMapping(value = "/inviteMember", consumes = "application/x-www-form-urlencoded;charset=UTF-8")
+    public Result inviteMember(@NotNull Integer groupId, @RequestParam List<String> users){
         log.info("邀请小组成员");
-        workService.inviteMember(users);
-        return Result.success();
+        workService.inviteMember(groupId,users);
+        return workService.inviteMember(groupId,users);
+    }
+
+    @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
+    @GetMapping("/listMember")
+    public Result listMember(){
+        log.info("查看小组成员");
+        List<String> users = groupService.listMember();
+        return Result.success("成员列表： ",users);
     }
 
     @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
@@ -55,7 +65,7 @@ public class WorkController {
     public Result updateProgress(String progress){
         log.info("更新工作进度");
         workService.updateProgress(progress);
-        return Result.success();
+        return Result.success("当前进度：",progress);
     }
 
     @PostMapping("/end")
