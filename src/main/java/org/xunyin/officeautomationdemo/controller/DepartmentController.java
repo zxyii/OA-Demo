@@ -56,13 +56,14 @@ public class DepartmentController {
     }
 
     @GetMapping("/messageInfo")
-    public List<Message> messagesList(){
+    public Result messagesList(){
         log.info("查询当前部门公告");
-        return messageService.list();
+        List<Message> messageList = messageService.list();
+        return Result.success("公告:" ,messageList);
     }
 
     @SaCheckRole(value = {"admin","leader"},mode = SaMode.OR)
-    @PostMapping("/addMessage")
+    @PostMapping("/publishMessage")
     public Result publishMessage(@RequestBody Message message){
         log.info("发布部门公告");
         messageService.add(message);

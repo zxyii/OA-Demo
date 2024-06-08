@@ -14,6 +14,6 @@ public interface MessageMapper {
             "values (#{title},#{content},#{sendPerson},#{receiveDepartmentId},#{createDate})")
     void add(Message message);
 
-    @Select(("select m.* from message m, department d where m.send_person = d.department_leader"))
-    List<Message> list();
+    @Select(("select m.* from message m, department d where receive_department_id = #{departmentId} "))
+    List<Message> list(int departmentId);
 }
