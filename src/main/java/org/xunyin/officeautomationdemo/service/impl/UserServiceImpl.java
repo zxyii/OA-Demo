@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
     public Result updateImage(String imageUrl) {
         User user = userMapper.findById(StpUtil.getLoginIdAsInt());
         userMapper.updateImage(user.getUserId(),imageUrl);
-        return Result.success("更新成功");
+        return Result.success("更新成功",imageUrl);
     }
 
     @Override
