@@ -100,12 +100,13 @@ public class UserController {
 
     @SneakyThrows
     @PostMapping("/updateImage")
-    public Result updateImage(@RequestParam("File") MultipartFile multipartFile){
+    public Result updateImage(@RequestParam("multipartFile") MultipartFile multipartFile){
         log.info("更新头像");
         String fileUrl = fileUploadService.fileUpload(multipartFile);
         return userService.updateImage(fileUrl);
     }
 
+    @SaCheckRole({"admin"})
     @PostMapping("/updateRole")
     public Result updateRole(String userName, int roleId){
         log.info("更新用户权限");

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.xunyin.officeautomationdemo.properties.MinioProperties;
 import org.xunyin.officeautomationdemo.service.FileUploadService;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -18,10 +17,10 @@ public class FileUploadServiceImpl implements FileUploadService {
     MinioProperties minioProperties;
     @SneakyThrows
     @Override
-    public String fileUpload(MultipartFile multipartFile) throws IOException {
+    public String fileUpload(MultipartFile multipartFile){
         MinioClient minioClient = MinioClient.builder()
                 .endpoint(minioProperties.getEndpointUrl())
-                .credentials(minioProperties.getAccessKey(),minioProperties.getSecreKey())
+                .credentials(minioProperties.getAccessKey(),minioProperties.getSecretKey())
                 .build();
         InputStream inputStream = multipartFile.getInputStream();
         String originalFileName = multipartFile.getOriginalFilename();

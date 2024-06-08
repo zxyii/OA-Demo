@@ -2,7 +2,6 @@ package org.xunyin.officeautomationdemo.chat;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -38,6 +37,7 @@ public class WebSocketClient {
                     channel.closeFuture().sync();
                     break;
                 }
+                channel.writeAndFlush(new TextWebSocketFrame(message));
             }
         }finally {
             group.shutdownGracefully();

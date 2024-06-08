@@ -58,9 +58,9 @@ sa-token:
 
 spx:
     minio:
-      endpointUrl: http://192.168.217.131:9000
+      endpointUrl: http://192.168.217.131:9001
       accessKey: admin
-      secreKey: admin123
+      secretKey: admin123
       bucketName: oa-bucket
 
 
