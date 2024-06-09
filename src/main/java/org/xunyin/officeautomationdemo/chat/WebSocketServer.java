@@ -27,7 +27,7 @@ public class WebSocketServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
-                protected void initChannel(SocketChannel socketChannel) throws Exception {
+                protected void initChannel(SocketChannel socketChannel) {
                     //给pipeline管道设置处理器 初始化管道
                     ChannelPipeline pipeline = socketChannel.pipeline();
                     pipeline.addLast(new HttpServerCodec());
@@ -38,6 +38,7 @@ public class WebSocketServer {
                 }
             });
             ChannelFuture channelFuture = serverBootstrap.bind(8088).sync();
+            System.out.println("WebSocketServer启动");
             channelFuture.channel().closeFuture().sync();
 
         } finally {

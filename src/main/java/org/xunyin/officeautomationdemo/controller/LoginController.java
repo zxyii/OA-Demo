@@ -1,7 +1,5 @@
 package org.xunyin.officeautomationdemo.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.util.SaResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +21,6 @@ public class LoginController {
         return loginService.checkLogin();
     }
 
-    @SaCheckPermission(orRole = {"super_admin","department_admin"})
     @RequestMapping("tokenInfo")
     public SaResult tokenInfo(){
         return loginService.tokenInfo();
